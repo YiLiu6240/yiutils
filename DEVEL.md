@@ -20,7 +20,7 @@ poetry install
 ```
 
 ```
-poetry run pytest test/
+poetry run pytest
 ```
 
 ## Resources
