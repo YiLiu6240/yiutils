@@ -1,6 +1,4 @@
 # yi's utils
 
+## info
 
-## Resources
-
-- https://py-pkgs.org/
