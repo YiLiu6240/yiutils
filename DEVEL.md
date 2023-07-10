@@ -23,6 +23,20 @@ poetry install
 poetry run pytest
 ```
 
+```
+poetry build  # or make build
+```
+
+## package user workflow
+
+```
+# (optional) git clone from repo
+```
+
+
+```
+pip install dist/<the-built-package>.whl
+```
 ## Resources
 
 - https://py-pkgs.org/
