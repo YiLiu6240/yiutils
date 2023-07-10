@@ -3,5 +3,5 @@
 * package functionality
 ** TODO failsafe decorator
 * devel utils
-** black, autoflake, flake8, mypy
+** black, autoflake, flake8, isort, mypy
 *** and add to make routines

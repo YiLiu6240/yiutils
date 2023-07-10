@@ -1,7 +1,7 @@
 .PHONY: clean data lint requirements docs
 
 # directories that contain python scripts in the codebase
-python_files=$$(git ls-files -- . | grep -v "legacy" | grep -v "wip" | grep "\.py$$")
+python_files=$$(git ls-files -- . | grep "\.py$$")
 
 #################################################################################
 # Rules
@@ -13,32 +13,32 @@ python_files=$$(git ls-files -- . | grep -v "legacy" | grep -v "wip" | grep "\.p
 test:
 	poetry run pytest -vv
 
-# ## Format codebase, no imports
-# fmt-base:
-# 	python -m autoflake \
-# 		--in-place --recursive \
-# 		$(python_files)
-# 	python -m isort -rc --honor-noqa \
-# 		$(python_files)
-# 	python -m black \
-# 		$(python_files)
+## Format codebase, no imports
+fmt-base:
+	python -m autoflake \
+		--in-place --recursive \
+		$(python_files)
+	python -m isort -rc --honor-noqa \
+		$(python_files)
+	python -m black \
+		$(python_files)
 
-# ## Format codebase
-# fmt:
-# 	python -m autoflake \
-# 		--in-place --remove-all-unused-imports --recursive \
-# 		$(python_files)
-# 	python -m isort -rc --honor-noqa \
-# 		$(python_files)
-# 	python -m black \
-# 		$(python_files)
+## Format codebase
+fmt:
+	python -m autoflake \
+		--in-place --remove-all-unused-imports --recursive \
+		$(python_files)
+	python -m isort -rc --honor-noqa \
+		$(python_files)
+	python -m black \
+		$(python_files)
 
-# ## Lint codebase
-# lint:
-# 	python -m flake8 \
-# 		$(python_files)
-# 	python -m mypy \
-# 		$(python_files)
+## Lint codebase
+lint:
+	python -m flake8 \
+		$(python_files)
+	python -m mypy \
+		$(python_files)
 
 ## ==== scripts ====
 
