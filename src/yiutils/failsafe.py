@@ -17,7 +17,7 @@ def failsafe(
     # https://stackoverflow.com/a/69030553
     def _failsafe(func: _Func) -> _Func:
         @functools.wraps(func)
-        def wrapper(*args, **kwargs) -> _FAILSAFE_RES:
+        def wrapper(*args, **kwargs) -> _FAILSAFE_RES:  # type: ignore[no-untyped-def]
             contingent_error: _CONTINGENT_ERROR
             context: _CONTEXT
             try:
