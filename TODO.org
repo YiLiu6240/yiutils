@@ -1,0 +1,7 @@
+#+title: todos
+
+* package functionality
+** TODO failsafe decorator
+* devel utils
+** black, autoflake, flake8, mypy
+*** and add to make routines
