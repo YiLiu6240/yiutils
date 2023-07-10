@@ -1,22 +1,25 @@
 import functools
 import warnings
 from inspect import getcallargs
-from typing import Any, Callable, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Tuple, TypeVar, Union, cast
 
 _CONTINGENT_ERROR = Union[bool, Exception]
 _CONTEXT = Optional[Any]
 _FAILSAFE_RES = Tuple[Optional[Any], _CONTINGENT_ERROR, _CONTEXT]
+_Func = TypeVar("_Func", bound=Callable[..., _FAILSAFE_RES])
 _MESSAGE_TEMPLATE = "failsafe: error: {error}; context: {context}"
 
 
 def failsafe(
     f_py: Optional[Callable] = None, silent: bool = False
-) -> _FAILSAFE_RES:
+) -> Callable[[_Func], _Func]:
     # https://stackoverflow.com/a/60832711
-    def _failsafe(func):
+    # https://stackoverflow.com/a/69030553
+    def _failsafe(func: _Func) -> _Func:
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> _FAILSAFE_RES:
             contingent_error: _CONTINGENT_ERROR
+            context: _CONTEXT
             try:
                 func_res = func(*args, **kwargs)
                 contingent_error = True
@@ -36,7 +39,10 @@ def failsafe(
             wrapper_res: _FAILSAFE_RES = (func_res, contingent_error, context)
             return wrapper_res
 
-        return wrapper
+        return cast(_Func, wrapper)
 
-    failsafe_res = _failsafe(f_py) if callable(f_py) else _failsafe
+    if callable(f_py):
+        failsafe_res = _failsafe(f_py)
+    else:
+        failsafe_res = _failsafe
     return failsafe_res
