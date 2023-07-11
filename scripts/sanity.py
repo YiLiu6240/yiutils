@@ -1,4 +1,4 @@
-from yiutils.proj_paths import find_project_root
+from yiutils.project_utils import find_project_root
 
 
 def main():
