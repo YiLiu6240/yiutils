@@ -11,21 +11,27 @@ _MESSAGE_TEMPLATE = "failsafe: error: {error}; context: {context}"
 
 
 def failsafe(
-    f_py: Optional[Callable] = None, silent: bool = False
+    f_py: Optional[Callable] = None,
+    silent: bool = False,
+    disabled: bool = False,
 ) -> Callable[[_Func], _Func]:
     # https://stackoverflow.com/a/60832711
     # https://stackoverflow.com/a/69030553
     def _failsafe(func: _Func) -> _Func:
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> _FAILSAFE_RES:  # type: ignore[no-untyped-def]
-            contingent_error: _CONTINGENT_ERROR
-            context: _CONTEXT
+            contingent_error: _CONTINGENT_ERROR = True
+            context: _CONTEXT = None
+            wrapper_res: _FAILSAFE_RES
+            func_res: Optional[Any] = None
+            # Use disabled to disable the failsafe wrapper
+            if disabled:
+                func_res = func(*args, **kwargs)
+                wrapper_res = (func_res, contingent_error, context)
+                return wrapper_res
             try:
                 func_res = func(*args, **kwargs)
-                contingent_error = True
-                context = None
             except Exception as error:
-                func_res = None
                 contingent_error = error
                 context = getcallargs(func, *args, **kwargs)
                 if not silent:
@@ -36,7 +42,7 @@ def failsafe(
                         context=context,
                     )
                     warnings.warn(message)
-            wrapper_res: _FAILSAFE_RES = (func_res, contingent_error, context)
+            wrapper_res = (func_res, contingent_error, context)
             return wrapper_res
 
         return cast(_Func, wrapper)

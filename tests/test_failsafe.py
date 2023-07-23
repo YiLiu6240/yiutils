@@ -20,6 +20,12 @@ def silent_bad(x: int = 0):
     return x
 
 
+@failsafe(disabled=True)
+def dont_disable(x: int = 0):
+    y = 12 / 0  # noqa
+    return x
+
+
 def test_good():
     res = good()
     assert isinstance(res, tuple)
@@ -45,3 +51,8 @@ def test_silient_bad():
     assert res[0] is None
     assert isinstance(res[1], ZeroDivisionError)
     assert res[2] == {"x": 0}
+
+
+def test_disable_failsafe():
+    with pytest.raises(ZeroDivisionError):
+        dont_disable()
