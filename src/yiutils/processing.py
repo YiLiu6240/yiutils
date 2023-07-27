@@ -1,6 +1,9 @@
-from typing import Any, Callable, Dict
+from dataclasses import dataclass
+from typing import Any, Callable, Dict, Optional
 
+import simple_parsing
 from loguru import logger
+from simple_parsing import field
 
 
 def processing_wrapper(
@@ -20,3 +23,15 @@ def processing_wrapper(
         logger.info(f"{prefix}#{idx}/{total}, payload: {payload}")
     res = func(**payload)
     return res
+
+
+@dataclass
+class BaseArgs:
+    dry_run: bool = field(alias="dry-run", action="store_true")
+    trial: bool = field(action="store_true")
+    num_samples: Optional[int] = None
+
+
+def make_base_args() -> BaseArgs:
+    base_args: BaseArgs = simple_parsing.parse(BaseArgs)
+    return base_args
