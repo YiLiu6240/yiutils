@@ -15,6 +15,7 @@ def sanity_check_chunking():
             data_length=data_length,
             pilot_num_docs=pilot_num_docs,
             pilot=pilot,
+            verbose=True,
         )
         print(f"Task ID {task_id}: startpoint={startpoint}, endpoint={endpoint}")
 
