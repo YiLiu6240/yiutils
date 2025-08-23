@@ -38,7 +38,7 @@ def test_bad():
     assert len(record) == 1
 
 
-def test_silient_bad():
+def test_silent_bad():
     res = silent_bad()
     assert isinstance(res, tuple)
     assert len(res) == 3
