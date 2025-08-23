@@ -1,12 +1,1 @@
 #+title: todos
-
-* current
-** TODO update docs
-** TODO Port to uv
-** TODO just, ruff, ty, pytest
-
-* legacy: package functionality
-** failsafe decorator
-* devel utils
-** black, autoflake, flake8, isort, mypy
-*** and add to make routines

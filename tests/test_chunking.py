@@ -62,4 +62,3 @@ def test_normal_mode_endpoint_exact():
     # chunk_id=1: start=13, end=25
     assert start == 13
     assert end == 25
-

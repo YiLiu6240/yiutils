@@ -50,4 +50,3 @@ def calculate_chunk_start_end(
             )
         return None, None
     return startpoint, endpoint
-

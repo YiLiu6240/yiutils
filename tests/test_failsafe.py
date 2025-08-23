@@ -21,7 +21,7 @@ def silent_bad(x: int = 0):
 
 
 def test_good():
-    res = good()
+    res = good()  # good() takes no arguments, this is correct
     assert isinstance(res, tuple)
     assert len(res) == 3
     assert res == (1, True, None)
@@ -29,7 +29,7 @@ def test_good():
 
 def test_bad():
     with pytest.warns(match="division by zero") as record:
-        res = bad()
+        res = bad()  # bad() has default parameter x=0, this is correct
     assert isinstance(res, tuple)
     assert len(res) == 3
     assert res[0] is None

@@ -1,27 +1,38 @@
-[tool.poetry]
+[project]
 name = "yiutils"
-version = "0.1.0"
+version = "0.1.1"
 description = "yi's utils"
-authors = ["YiLiu6240 <yi.liu6240@gmail.com>"]
+authors = [{name = "YiLiu6240", email = "yi.liu6240@gmail.com"}]
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.8"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.4.0"
-isort = {version = "^5.12", python = "^3.8"}
-flake8 = {version = "^6.0.0", python = "^3.8.1"}
-black = "^23.3.0"
-autoflake = {version = "^2.2.0", python = "^3.8"}
-mypy = "^1.4.1"
-
-[tool.black]
-line-length = 79
-
-[tool.mypy]
-ignore_missing_imports = true
+requires-python = ">=3.8"
+dependencies = []
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=7.4.0",
+    "ruff>=0.1.0",
+    "ty>=0.0.1a19",
+]
+
+[tool.ruff]
+line-length = 79
+target-version = "py38"
+
+[tool.ruff.lint]
+extend-ignore = ["E501"]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+]
+
+[tool.ruff.format]
+quote-style = "double"
