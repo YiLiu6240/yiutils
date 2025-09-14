@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+
+    - name: Install just
+      uses: extractions/setup-just@v2
+
+    - name: Install dependencies
+      run: uv sync --dev
+
+    - name: Run tests
+      run: just test
+
+    - name: Run linting
+      run: just lint
+
+    - name: Run sanity checks
+      run: just sanity
+
+    - name: Build package
+      run: just build
+
+  test-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+
+    - name: Install just
+      uses: extractions/setup-just@v2
+
+    - name: Install dependencies
+      run: uv sync --dev
+
+    - name: Run sanity checks
+      run: just sanity
+
+  test-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+
+    - name: Install just
+      uses: extractions/setup-just@v2
+
+    - name: Install dependencies
+      run: uv sync --dev
+
+    - name: Run sanity checks
+      run: just sanity
