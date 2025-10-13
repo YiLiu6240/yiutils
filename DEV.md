@@ -67,7 +67,7 @@ uv run ruff check --fix .
 
 # Lint code
 uv run ruff check .
-uv run typos .
+uv run ty check .
 
 # Build package
 uv build
